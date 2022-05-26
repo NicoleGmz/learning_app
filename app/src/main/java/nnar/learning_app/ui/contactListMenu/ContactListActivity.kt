@@ -18,6 +18,7 @@ import nnar.learning_app.data.repository.ContactFirestoreRepository
 import nnar.learning_app.databinding.ActivityContactListBinding
 import nnar.learning_app.datainterface.ContactListView
 import nnar.learning_app.domain.usecase.ContactFirestoreUseCase
+import nnar.learning_app.ui.contactCreation.ContactCreationActivity
 import nnar.learning_app.ui.login.LoginActivity
 
 class ContactListActivity: AppCompatActivity(), ContactListView {
@@ -58,11 +59,10 @@ class ContactListActivity: AppCompatActivity(), ContactListView {
 
     private fun setListeners() {
         addButton.setOnClickListener {
-            /**val intent = Intent(it.context, ContactCreationActivity()::class.java)
-            it.context.startActivity(intent)**/
-            presenter.addNewContact()
+            val intent = Intent(it.context, ContactCreationActivity()::class.java)
+            it.context.startActivity(intent)
+            //presenter.addNewContact()
             adapter.updateData()
-
         }
 
         logoutButton.setOnClickListener {

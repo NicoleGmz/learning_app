@@ -11,6 +11,9 @@ import kotlinx.coroutines.withContext
 import nnar.learning_app.domain.model.ContactFirestore
 import java.lang.Exception
 
+/**
+ * @author Nicole Gomez
+ */
 class ContactFirestoreRepository {
 
     private val TAG = "Learning App - Contact List:"
@@ -32,6 +35,14 @@ class ContactFirestoreRepository {
         ContactFirestore(6, "agus", "+34 666666666", "images/avataaars6.png", "agus@gmail.com")
     )*/
 
+    /**
+     * Create a new object ContactFireStore
+     * [name] String with the name of new contact
+     * [phone] String with the phone number of the new contact
+     * [image] String with the path of the image in Firebase
+     * [email] String with the email of the new contact
+     * @return ContactFirestore
+     */
     fun createContact(name:String, phone:String, image: String?, email:String): ContactFirestore{
         val newId = contactList.last().id + 1
         val auxImage = image ?: "images/avataaars_default.png" // If image is null then default
@@ -59,6 +70,12 @@ class ContactFirestoreRepository {
         }
         return response
     }**/
+
+    /**
+     *
+     * [contact] A ContactFirestore Object
+     * @return Boolean with operation result
+     */
 
     suspend fun writeDataOnFirestore(contact: ContactFirestore):Boolean{
         return withContext(Dispatchers.IO){
@@ -100,8 +117,7 @@ class ContactFirestoreRepository {
                 db.document(userUIDRepository).collection("contacts")
                     .document(contact.id.toString())
                     .delete()
-                    .await()
-
+                deleteImage(contact.image)
                 contactList.remove(contact)
                 true
             }catch(e: Exception){
@@ -114,9 +130,9 @@ class ContactFirestoreRepository {
         val imageName = "images/avatar_$name".trim().replace(" ", "_")
         val contact = createContact(name, phone, imageName, email)
         return try{
-            writeDataOnFirestore(contact)
             uploadImage(imageName, image)
-             true
+            writeDataOnFirestore(contact)
+            true
         }catch (e: Exception){
             false
         }
@@ -126,9 +142,21 @@ class ContactFirestoreRepository {
         return withContext(Dispatchers.IO){
             try{
                 val path = storageRef.child(imageName)
-                path.putFile(image)
+                path.putFile(image).await()
                 true
             }catch (e: Exception){
+                false
+            }
+        }
+    }
+
+    private suspend fun deleteImage(imageName:String): Boolean{
+        return withContext(Dispatchers.IO){
+            try{
+                val imageRef = storageRef.child(imageName)
+                imageRef.delete().await()
+                true
+            }catch(e: Exception){
                 false
             }
         }
