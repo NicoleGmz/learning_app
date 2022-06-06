@@ -1,29 +1,13 @@
 # README #
+Android project created to learn, done in Kotlin. Created with different people as a group, my personal code is located in the branch called "nicole".
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+Things learned in during this project:
+* MVP architecture
+* Intent and Activity life-cycle
+* RecyclerView
+* Firebase Connection and basic database
+* Social Login with Firebase storage
+* Permitions and use of camera and gallery
+* Load and save picture in firebase with Glide
+* Notifications
+* Corutines calls
